@@ -1,0 +1,123 @@
+import React, { useState } from "react";
+
+const moods = [
+  { label: "😊 Happy", value: "happy" },
+  { label: "😢 Sad", value: "sad" },
+  { label: "😡 Angry", value: "angry" },
+  { label: "😴 Tired", value: "tired" },
+  { label: "😰 Anxious", value: "anxious" },
+];
+
+const recommendations = {
+  happy: {
+    title: "La La Land",
+    description: "Uplifting musical to keep the joy flowing.",
+    image: "https://image.tmdb.org/t/p/w500/uz8XvE9U3RcFvTjD1F90DnNBz8H.jpg",
+  },
+  sad: {
+    title: "Paddington 2",
+    description: "Wholesome comfort film to cheer you up.",
+    image: "https://image.tmdb.org/t/p/w500/qw3J9cNeLioOLoR68WX7z79aCdK.jpg",
+  },
+  angry: {
+    title: "Mad Max: Fury Road",
+    description: "Channel your rage with a high-octane thrill ride.",
+    image: "https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+  },
+  tired: {
+    title: "My Neighbor Totoro",
+    description: "Slow-paced, relaxing animation for some peace.",
+    image: "https://image.tmdb.org/t/p/w500/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg",
+  },
+  anxious: {
+    title: "The Secret Life of Walter Mitty",
+    description: "Inspiring story to calm your thoughts.",
+    image: "https://image.tmdb.org/t/p/w500/7W0G3YECgDAfnuiHG91r8WqgIOe.jpg",
+  },
+};
+
+export default function App() {
+  const [step, setStep] = useState(1);
+  const [selectedMood, setSelectedMood] = useState(null);
+
+  const handleMoodSelect = (mood) => {
+    setSelectedMood(mood);
+    setStep(3);
+  };
+
+  return (
+    <div style={{ fontFamily: "Arial, sans-serif", padding: 20, textAlign: "center" }}>
+      {step === 1 && (
+        <div>
+          <img
+            src="https://via.placeholder.com/150"
+            alt="Dr. Movie Logo"
+            style={{ width: 120, marginBottom: 20 }}
+          />
+          <h1 style={{ fontSize: 28 }}>Welcome to Dr. Movie</h1>
+          <p>Your AI doctor for movie therapy.</p>
+          <button onClick={() => setStep(2)} style={styles.buttonPrimary}>
+            Start My Diagnosis
+          </button>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <h2 style={{ fontSize: 24, marginBottom: 20 }}>How are you feeling today?</h2>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10 }}>
+            {moods.map((mood) => (
+              <button
+                key={mood.value}
+                onClick={() => handleMoodSelect(mood.value)}
+                style={styles.buttonSecondary}
+              >
+                {mood.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step === 3 && selectedMood && (
+        <div style={{ maxWidth: 400, margin: "0 auto" }}>
+          <h3 style={{ fontSize: 22, marginBottom: 10 }}>Prescription for your mood:</h3>
+          <img
+            src={recommendations[selectedMood].image}
+            alt={recommendations[selectedMood].title}
+            style={{ width: "100%", borderRadius: 10, marginBottom: 10 }}
+          />
+          <h4 style={{ color: "#E66030", fontSize: 20 }}>{recommendations[selectedMood].title}</h4>
+          <p>{recommendations[selectedMood].description}</p>
+          <button onClick={() => setStep(1)} style={styles.buttonPrimary}>
+            Restart
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const styles = {
+  buttonPrimary: {
+    backgroundColor: "#E66030",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: 30,
+    marginTop: 20,
+    cursor: "pointer",
+    fontSize: 16,
+  },
+  buttonSecondary: {
+    border: "2px solid #2F4F56",
+    color: "#2F4F56",
+    backgroundColor: "white",
+    padding: "10px 20px",
+    borderRadius: 30,
+    cursor: "pointer",
+    fontSize: 16,
+  },
+};
+
+
